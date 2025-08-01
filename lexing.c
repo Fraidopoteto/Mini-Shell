@@ -55,7 +55,8 @@ static int	_quotes_size(char *input, int position, int *token_size, char quote)
 	i = position + 1;
 	while (input[i] && input[i] != quote)
 		i++;
-	i++;
+	if (input[i] == quote)
+		i++;
 	(*token_size)++;
 	while (input[i] && _isspace(input[i]))
 		i++;
@@ -95,9 +96,16 @@ static int	_quotes(char *input, int position, int *token_count, char **tokens, c
 	int	i;
 
 	i = position + 1;
+	if (position == -1)
+		return (-1);
 	while (input[i] && input[i] != quote)
 		i++;
-	tokens[*token_count] = calloc((i - position + 1), 1);
+	if (tokens[i] == quote)
+		tokens[*token_count] = calloc((i - position + 1), 1);
+	else
+		return (-1);
+	if (!tokens)
+		return(-1);
 	_strlcpy(tokens[*token_count], &input[position], (i - position + 1));
 	(*token_count)++;
 	i++;
@@ -117,12 +125,16 @@ char	**lexing(char *input, int *token_count)
 	i = 0;
 	j = 0;
 	tokens = calloc((_get_token_size(input) + 1), sizeof(char *));
+	if (!tokens)
+		return (NULL);
 	while (input[i])
 	{
 		while (input[i] && _isspace(input[i]))
 			i++;
 		if (input[i] == '"' || input[i] == 39)
 			i = _quotes(input, i, token_count, tokens, input[i]);
+		if (i == -1)
+			return (NULL);
 		if (!input[i])
 			break ;
 		j = i;
@@ -151,7 +163,7 @@ char	**lexing(char *input, int *token_count)
 // 		while (input[i] && _isspace(input[i]))
 // 			i++;
 // 		if (!input[i])
-// 			break ; 
+// 			break ;
 // 		j = i;
 // 		while (input[j] && !_isspace(input[j]))
 // 			j++;
@@ -162,4 +174,4 @@ char	**lexing(char *input, int *token_count)
 // 	}
 // 	tokens[*token_count] = NULL;
 // 	return (tokens);
-//} 
+//}
