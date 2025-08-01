@@ -29,11 +29,23 @@ void	shell_loop(void)
 			break ;
 		}
 		tokens = lexing(input, &token_count);
+		if (!tokens)
+		{
+			cleanup(token_struct, tokens, &token_count);
+			free(input);
+			perror("error tokens\n");
+		}
 		token_struct = tokenize(tokens, &token_count);
+		if (!token_struct)
+		{
+			cleanup(token_struct, tokens, &token_count);
+			free(input);
+			perror("error token_struct\n");
+		}
 		debug_info(token_struct, &token_count);
 		cleanup(token_struct, tokens, &token_count);
 		free(input);
 	}
-	
+
 }
 
