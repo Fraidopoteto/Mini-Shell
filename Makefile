@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: joschmun <joschmun@student.42wolfsburg>    +#+  +:+       +#+         #
+#    By: joschmun < joschmun@student.42wolfsburg    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 17:23:59 by joschmun          #+#    #+#              #
-#    Updated: 2025/07/15 14:41:58 by joschmun         ###   ########.fr        #
+#    Updated: 2025/08/05 18:58:46 by joschmun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -63,6 +63,8 @@ SRC		+= loop.c
 SRC		+= tokenize.c
 SRC		+= debug.c
 SRC		+= cleanup.c
+SRC		+= init.c
+SRC		+= error.c
 
 
 OBJ		:= $(SRC:.c=.o)
