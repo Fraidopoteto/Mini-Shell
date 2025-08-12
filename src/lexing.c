@@ -48,7 +48,7 @@ static int	_strlcpy(char *dst, const char *src, size_t dst_size)
 	return (src_len);
 }
 
-static int	_quotes(t_lex_struct *lex_struct, int *i, char quote)
+static int	_quote(t_lex_struct *lex_struct, int *i, char quote)
 {
 	int	j;
 
@@ -69,7 +69,77 @@ static int	_quotes(t_lex_struct *lex_struct, int *i, char quote)
 	(*i) = j;
 	if (lex_struct->input[j] == '"' || lex_struct->input[j] == 39)
 	{
-		if (_quotes(lex_struct, i, lex_struct->input[j]))
+		if (_quote(lex_struct, i, lex_struct->input[j]))
+			return (1);
+	}
+	return(0);
+}
+
+
+static int	_operator(t_lex_struct *lex_struct, int *j, char operator)
+{
+	int	i;
+	int	max_op;
+
+	i = (*j);
+	max_op = 1;
+	while (lex_struct->input[*j] && lex_struct->input[*j] == operator && max_op > 0)
+	{
+		max_op--;
+		(*j)++;
+	}
+	lex_struct->tokens[lex_struct->token_count] = calloc((i - (*j) + 1), 1);
+	if (!lex_struct->tokens)
+		return(1);
+	_strlcpy(lex_struct->tokens[lex_struct->token_count], &lex_struct->input[(*j)], (i - (*j) + 1));
+	lex_struct->token_count++;
+	while (lex_struct->input[*j] && _isspace(lex_struct->input[*j]))
+		(*j)++;
+	if (lex_struct->input[*j] == '<' || lex_struct->input[*j] == '>')
+	{
+		if (_operator(lex_struct, j, lex_struct->input[*j]))
+			return (1);
+	}
+	return(0);
+}
+
+static int	_pipe(t_lex_struct *lex_struct, int *j)
+{
+	lex_struct->tokens[lex_struct->token_count] = calloc(1, 1);
+	if (!lex_struct->tokens)
+		return(1);
+	_strlcpy(lex_struct->tokens[lex_struct->token_count], &lex_struct->input[(*j)], 1);
+	lex_struct->token_count++;
+	(*j)++;
+	while (lex_struct->input[*j] && _isspace(lex_struct->input[*j]))
+		(*j)++;
+	if (lex_struct->input[*j] == '|')
+	{
+		if (_pipe(lex_struct, j))
+			return (1);
+	}
+	return(0);
+}
+static int	_word(t_lex_struct *lex_struct, int *j)
+{
+	int	i;
+
+	i = (*j);
+	while (lex_struct->input[*j] && lex_struct->input[*j] != '<' && lex_struct->input[*j] != '>'
+		&& lex_struct->input[*j] != '|' && lex_struct->input[*j] != '"'
+		&& lex_struct->input[*j] != '\'' && !_isspace(lex_struct->input[*j]))
+		(*j)++;
+	lex_struct->tokens[lex_struct->token_count] = calloc((i - *j + 1), 1);
+	if (!lex_struct->tokens)
+		return(1);
+	_strlcpy(lex_struct->tokens[lex_struct->token_count], &lex_struct->input[*j], (i - *j));
+	lex_struct->token_count++;
+	while (lex_struct->input[*j] && _isspace(lex_struct->input[*j]))
+		(*j)++;
+	if (lex_struct->input[*j] != '<' && lex_struct->input[*j] != '>'
+		&& lex_struct->input[*j] != '"' && lex_struct->input[*j] != '\'' && lex_struct->input[*j] != '|')
+	{
+		if (_word(lex_struct, j))
 			return (1);
 	}
 	return(0);
@@ -86,19 +156,23 @@ int	lexing(t_lex_struct *lex_struct)
 	{
 		while (lex_struct->input[i] && _isspace(lex_struct->input[i]))
 			i++;
-		if (lex_struct->input[i] == '"' || lex_struct->input[i] == 39)
+		if (lex_struct->input[i] == '"' || lex_struct->input[i] == '\'')
 		{
-			if (_quotes(lex_struct, &i, lex_struct->input[i]))
-				return (error("syntax error\n"));
+			if (_quote(lex_struct, &i, lex_struct->input[i]))
+				return(error("syntax error: quotes\n"));
 		}
 		if (!lex_struct->input[i])
 			break ;
 		j = i;
 		while (lex_struct->input[j] && !_isspace(lex_struct->input[j]))
- 			j++;
-		lex_struct->tokens[lex_struct->token_count] = calloc((j - i + 1), 1);
-		_strlcpy(lex_struct->tokens[lex_struct->token_count], &lex_struct->input[i], (j - i));
-		lex_struct->token_count++;
+		{
+			if (lex_struct->input[j] == '<' || lex_struct->input[j] == '>')
+				_operator(lex_struct, &j, lex_struct->input[j]);
+			else if (lex_struct->input[j] == '|')
+				_pipe(lex_struct, &j);
+			else
+				_word(lex_struct, &j);
+		}
 		i = j;
 	}
 	lex_struct->tokens[lex_struct->token_count] = NULL;

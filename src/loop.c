@@ -12,6 +12,19 @@
 
 #include "minishell.h"
 
+// int	execute_command(t_token_struct **token_struct, t_lex_struct *lex_struct)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	while (i < lex_struct->token_count)
+// 	{
+// 		if ((*token_struct)[i].type == HDOC)
+// 			hdoc(&token_struct, &lex_struct);
+// 		i++;
+// 	}
+// }
+
 int	shell_loop()
 {
 	t_token_struct	*token_struct = NULL;
@@ -30,7 +43,10 @@ int	shell_loop()
 			if (!lexing(&lex_struct))
 			{
 				if (!tokenize(&token_struct , &lex_struct))
+				{
 					debug_info(&token_struct, &lex_struct);
+					// execute_command(&token_struct, &lex_struct);
+				}
 			}
 		}
 		cleanup(&token_struct, &lex_struct);

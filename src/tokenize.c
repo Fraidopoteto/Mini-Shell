@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	_strcmp(char *str1, char *str2)
+static int	_strcmp(char *str1, char *str2)
 {
 	int	i;
 
@@ -23,10 +23,12 @@ int	_strcmp(char *str1, char *str2)
 			return (1);
 		i++;
 	}
+	if (str1[i] != str2[i])
+		return (1);
 	return (0);
 }
 
-int	_charcmp(char a, char b)
+static int	_charcmp(char a, char b)
 {
 	if (a != b)
 		return (1);
@@ -81,7 +83,7 @@ int	tokenize(t_token_struct **token_struct, t_lex_struct *lex_struct)
 			(*token_struct)[i].type = REINPUT;
 		else if (!_strcmp(lex_struct->tokens[i], "<<"))
 			(*token_struct)[i].type = HDOC;
-		else if (!_strcmp(lex_struct->tokens[i], "-"))
+		else if (!_charcmp(lex_struct->tokens[i][0], '-'))
 			(*token_struct)[i].type = OPTIONS;
 		else if (!_charcmp(lex_struct->tokens[i][0], '\''))
 			(*token_struct)[i].type = SINGLE_QUOTE;

@@ -6,7 +6,7 @@
 /*   By: joschmun < joschmun@student.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 13:51:54 by joschmun          #+#    #+#             */
-/*   Updated: 2025/08/05 16:54:07 by joschmun         ###   ########.fr       */
+/*   Updated: 2025/08/12 18:24:21 by joschmun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	_isspace(char a)
 	return (0);
 }
 
-static void	_quotes_size(char *input, int *i, int *token_size, char quote)
+static void	_quote_size(char *input, int *i, int *token_size, char quote)
 {
 	int	j;
 
@@ -34,7 +34,57 @@ static void	_quotes_size(char *input, int *i, int *token_size, char quote)
 		j++;
 	(*i) = j;
 	if (input[j] == '"' || input[j] == 39)
-		_quotes_size(input , i, token_size, input[j]);
+		_quote_size(input , i, token_size, input[j]);
+}
+
+static void	_operator_size(char *input, int *i, int *token_size, char operator)
+{
+	int	j;
+	int	max_op;
+
+	j = (*i);
+	max_op = 1;
+	while (input[j] && input[j] == operator && max_op > 0 && (operator == '<' || operator == '>'))
+	{
+		max_op--;
+		j++;
+	}
+	(*token_size)++;
+	while (input[j] && _isspace(input[j]))
+		j++;
+	if (operator == '|')
+		j++;
+	(*i) = j;
+	if (input[j] == '<' || input[j] == '>')
+		_operator_size(input, i, token_size, input[j]);
+}
+
+static int	_pipe_size(char *input, int *i, int *token_count)
+{
+	(*token_count)++;
+	(*i)++;
+	while (input[*i] && _isspace(input[*i]))
+		(*i)++;
+	if (input[*i] == '|')
+	{
+		if (_pipe_size(input, i, token_count))
+			return (1);
+	}
+	return(0);
+}
+
+static int	_word_size(char *input, int *i, int *token_count)
+{
+	while (input[*i] && input[*i] != '<' && input[*i] != '>' && input[*i] != '|'
+		&& input[*i] != '"' && input[*i] != '\'' && !_isspace(input[*i]))
+		(*i)++;
+	(*token_count)++;
+	while (input[*i] && _isspace(input[*i]))
+		(*i)++;
+	if (input[*i] && input[*i] != '<' && input[*i] != '>' && input[*i] != '|'
+		&& input[*i] != '"' && input[*i] != '\'' && !_isspace(input[*i]))
+		_word_size(input, i, token_count);
+	return(0);
 }
 
 static int	_get_token_size(char *input)
@@ -51,13 +101,22 @@ static int	_get_token_size(char *input)
 		while (input[i] && _isspace(input[i]))
 			i++;
 		if (input[i] == '"' || input[i] == 39)
-			_quotes_size(input, &i, &token_size, input[i]);
+			_quote_size(input, &i, &token_size, input[i]);
 		if (!input[i])
 			break ;
 		j = i;
-		while (input[j] && !_isspace(input[j]))
-			j++;
-		token_size++;
+		if (input[j] && !_isspace(input[j]))
+		{
+			while (input[j] && !_isspace(input[j]))
+			{
+				if (input[j] == '>' || input[j] == '<')
+					_operator_size(input, &j, &token_size, input[j]);
+				else if (input[j] == '|')
+					_pipe_size(input, &j, &token_size);
+				else
+					_word_size(input, &j, &token_size);
+			}
+		}
 		i = j;
 	}
 	return(token_size);
