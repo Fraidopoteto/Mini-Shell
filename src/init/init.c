@@ -6,11 +6,11 @@
 /*   By: joschmun < joschmun@student.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 13:51:54 by joschmun          #+#    #+#             */
-/*   Updated: 2025/08/12 18:24:21 by joschmun         ###   ########.fr       */
+/*   Updated: 2025/08/14 12:56:45 by joschmun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "init.h"
 
 static int	_isspace(char a)
 {
@@ -20,43 +20,30 @@ static int	_isspace(char a)
 	return (0);
 }
 
-static void	_quote_size(char *input, int *i, int *token_size, char quote)
+static void	_quote_size(char *input, int *j, int *token_size, char quote)
 {
-	int	j;
-
-	j = (*i) + 1;
-	while (input[j] && input[j] != quote)
-		j++;
-	if (input[j] == quote)
-		j++;
+	(*j)++;
+	while (input[(*j)] && input[(*j)] != quote)
+		(*j)++;
+	if (input[(*j)] == quote)
+		(*j)++;
 	(*token_size)++;
-	while (input[j] && _isspace(input[j]))
-		j++;
-	(*i) = j;
-	if (input[j] == '"' || input[j] == 39)
-		_quote_size(input , i, token_size, input[j]);
+	while (input[(*j)] && _isspace(input[(*j)]))
+		(*j)++;
+	if (input[(*j)] == '"' || input[(*j)] == '\'')
+		_quote_size(input , j, token_size, input[(*j)]);
 }
 
 static void	_operator_size(char *input, int *i, int *token_size, char operator)
 {
-	int	j;
-	int	max_op;
-
-	j = (*i);
-	max_op = 1;
-	while (input[j] && input[j] == operator && max_op > 0 && (operator == '<' || operator == '>'))
-	{
-		max_op--;
-		j++;
-	}
+	(*i)++;
+	if (input[*i] && input[*i] == operator)
+		(*i)++;
 	(*token_size)++;
-	while (input[j] && _isspace(input[j]))
-		j++;
-	if (operator == '|')
-		j++;
-	(*i) = j;
-	if (input[j] == '<' || input[j] == '>')
-		_operator_size(input, i, token_size, input[j]);
+	while (input[*i] && _isspace(input[*i]))
+		(*i)++;
+	if (input[*i] == '<' || input[*i] == '>')
+		_operator_size(input, i, token_size, input[*i]);
 }
 
 static int	_pipe_size(char *input, int *i, int *token_count)
@@ -73,51 +60,46 @@ static int	_pipe_size(char *input, int *i, int *token_count)
 	return(0);
 }
 
-static int	_word_size(char *input, int *i, int *token_count)
+static int	_word_size(char *input, int *i, int *token_size)
 {
 	while (input[*i] && input[*i] != '<' && input[*i] != '>' && input[*i] != '|'
 		&& input[*i] != '"' && input[*i] != '\'' && !_isspace(input[*i]))
 		(*i)++;
-	(*token_count)++;
+	(*token_size)++;
 	while (input[*i] && _isspace(input[*i]))
 		(*i)++;
 	if (input[*i] && input[*i] != '<' && input[*i] != '>' && input[*i] != '|'
 		&& input[*i] != '"' && input[*i] != '\'' && !_isspace(input[*i]))
-		_word_size(input, i, token_count);
+		_word_size(input, i, token_size);
 	return(0);
 }
 
 static int	_get_token_size(char *input)
 {
 	int	i;
-	int	j;
 	int token_size;
 
 	i = 0;
-	j = 0;
 	token_size = 0;
 	while (input[i])
 	{
 		while (input[i] && _isspace(input[i]))
 			i++;
-		if (input[i] == '"' || input[i] == 39)
-			_quote_size(input, &i, &token_size, input[i]);
-		if (!input[i])
-			break ;
-		j = i;
-		if (input[j] && !_isspace(input[j]))
+		if (input[i] && !_isspace(input[i]))
 		{
-			while (input[j] && !_isspace(input[j]))
-			{
-				if (input[j] == '>' || input[j] == '<')
-					_operator_size(input, &j, &token_size, input[j]);
-				else if (input[j] == '|')
-					_pipe_size(input, &j, &token_size);
-				else
-					_word_size(input, &j, &token_size);
-			}
+			if (input[i] == '"' || input[i] == 39)
+				_quote_size(input, &i, &token_size, input[i]);
+			else if (input[i] == '>' || input[i] == '<')
+				_operator_size(input, &i, &token_size, input[i]);
+			else if (input[i] == '|')
+				_pipe_size(input, &i, &token_size);
+			else if (input[i] && input[i] != '<' && input[i] != '>'
+			&& input[i] != '|' && input[i] != '"'
+			&& input[i] != '\'' && !_isspace(input[i]))
+				_word_size(input, &i, &token_size);
+			else
+				i++;
 		}
-		i = j;
 	}
 	return(token_size);
 }

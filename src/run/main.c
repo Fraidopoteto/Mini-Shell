@@ -10,10 +10,10 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "run.h"
 
 int	main(void)
 {
-	shell_loop();
+	run();
 	return (0);
 }

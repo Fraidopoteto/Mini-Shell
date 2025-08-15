@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   loop.c                                             :+:      :+:    :+:   */
+/*   run.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joschmun < joschmun@student.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "run.h"
 
 // int	execute_command(t_token_struct **token_struct, t_lex_struct *lex_struct)
 // {
@@ -25,7 +25,7 @@
 // 	}
 // }
 
-int	shell_loop()
+int	run()
 {
 	t_token_struct	*token_struct = NULL;
 	t_lex_struct	lex_struct;

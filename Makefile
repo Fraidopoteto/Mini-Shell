@@ -6,16 +6,15 @@
 #    By: joschmun < joschmun@student.42wolfsburg    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 17:23:59 by joschmun          #+#    #+#              #
-#    Updated: 2025/08/05 18:58:46 by joschmun         ###   ########.fr        #
+#    Updated: 2025/08/14 14:19:35 by joschmun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # config
 NAME	:= minishell
 CC		:= cc
-SRC_DIR	:= src/
-INC_DIR	:= inc/
-OBJ_DIR	:= obj/
+SRC_DIR	:= src
+OBJ_DIR	:= obj
 
 CFLAGS	:=
 CFLAGS	+= -O2
@@ -25,7 +24,16 @@ CFLAGS	+= -Werror
 CFLAGS	+= $(ADDFLAGS)
 
 CPPFLAGS	:=
-CPPFLAGS	+= -I$(INC_DIR)
+CPPFLAGS	+= -I$(SRC_DIR)
+
+CPPFLAGS	+= -I$(SRC_DIR)/cleanup
+CPPFLAGS	+= -I$(SRC_DIR)/debug
+CPPFLAGS	+= -I$(SRC_DIR)/error
+CPPFLAGS	+= -I$(SRC_DIR)/init
+CPPFLAGS	+= -I$(SRC_DIR)/lexer
+CPPFLAGS	+= -I$(SRC_DIR)/run
+CPPFLAGS	+= -I$(SRC_DIR)/tokenizer
+
 
 LDFLAGS	:=
 
@@ -56,16 +64,27 @@ endif
 # sources
 SRC		:=
 
-vpath %.c src/
-SRC		+= main.c
-SRC		+= lexing.c
-SRC		+= loop.c
-SRC		+= tokenize.c
-SRC		+= debug.c
+vpath %.c $(SRC_DIR)/cleanup
 SRC		+= cleanup.c
-SRC		+= init.c
+
+vpath %.c $(SRC_DIR)/debug
+SRC		+= debug.c
+
+vpath %.c $(SRC_DIR)/error
 SRC		+= error.c
 
+vpath %.c $(SRC_DIR)/init
+SRC		+= init.c
+
+vpath %.c $(SRC_DIR)/lexer
+SRC		+= lexer.c
+
+vpath %.c $(SRC_DIR)/tokenizer
+SRC		+= tokenizer.c
+
+vpath %.c $(SRC_DIR)/run
+SRC		+= run.c
+SRC		+= main.c
 
 OBJ		:= $(SRC:.c=.o)
 OBJ		:= $(addprefix $(OBJ_DIR)/, $(OBJ))

@@ -6,11 +6,11 @@
 /*   By: joschmun < joschmun@student.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:22:22 by joschmun          #+#    #+#             */
-/*   Updated: 2025/08/05 17:24:32 by joschmun         ###   ########.fr       */
+/*   Updated: 2025/08/14 14:11:34 by joschmun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "debug.h"
 
 void	debug_info(t_token_struct **token_struct, t_lex_struct *lex_struct)
 {
