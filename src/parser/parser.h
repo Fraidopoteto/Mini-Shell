@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   debug.h                                            :+:      :+:    :+:   */
+/*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joschmun < joschmun@student.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/14 12:36:17 by joschmun          #+#    #+#             */
-/*   Updated: 2025/08/25 19:38:24 by joschmun         ###   ########.fr       */
+/*   Created: 2025/08/18 18:44:04 by joschmun          #+#    #+#             */
+/*   Updated: 2025/08/25 18:59:38 by joschmun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DEBUG_H
-# define DEBUG_H
+#ifndef PARSER_H
+# define PARSER_H
 
 # include <unistd.h>
 # include <stdio.h>
@@ -19,7 +19,7 @@
 # include "init.h"
 
 
-void	debug_info(t_token_struct **token_struct, t_lex_struct *lex_struct, t_tree ***tree, int *tree_size);
+int	parsing(t_tree ***tree, t_token_struct **token_struct, int token_count);
 
 
 #endif

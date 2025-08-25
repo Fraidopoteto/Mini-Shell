@@ -6,7 +6,7 @@
 /*   By: joschmun < joschmun@student.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 13:51:54 by joschmun          #+#    #+#             */
-/*   Updated: 2025/08/14 12:56:45 by joschmun         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:02:00 by joschmun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static int	_word_size(char *input, int *i, int *token_size)
 static int	_get_token_size(char *input)
 {
 	int	i;
-	int token_size;
+	int	token_size;
 
 	i = 0;
 	token_size = 0;

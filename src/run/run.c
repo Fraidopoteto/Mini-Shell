@@ -27,8 +27,10 @@
 
 int	run()
 {
+	int tree_size = 0;
 	t_token_struct	*token_struct = NULL;
 	t_lex_struct	lex_struct;
+	t_tree			**tree = NULL;
 	while (1)
 	{
 		lex_struct.input = 0;
@@ -44,7 +46,9 @@ int	run()
 			{
 				if (!tokenize(&token_struct , &lex_struct))
 				{
-					debug_info(&token_struct, &lex_struct);
+					if (init_ast(&tree, &token_struct, lex_struct.token_count, &tree_size)
+					 || !parsing(&tree, &token_struct, lex_struct.token_count))
+						debug_info(&token_struct, &lex_struct, &tree, &tree_size);
 					// execute_command(&token_struct, &lex_struct);
 				}
 			}

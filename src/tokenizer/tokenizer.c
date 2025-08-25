@@ -83,14 +83,12 @@ int	tokenize(t_token_struct **token_struct, t_lex_struct *lex_struct)
 			(*token_struct)[i].type = REINPUT;
 		else if (!_strcmp(lex_struct->tokens[i], "<<"))
 			(*token_struct)[i].type = HDOC;
-		else if (!_charcmp(lex_struct->tokens[i][0], '-'))
-			(*token_struct)[i].type = OPTIONS;
 		else if (!_charcmp(lex_struct->tokens[i][0], '\''))
 			(*token_struct)[i].type = SINGLE_QUOTE;
 		else if (!_charcmp(lex_struct->tokens[i][0], '"'))
 			(*token_struct)[i].type = DOUBLE_QUOTE;
 		else
-			(*token_struct)[i].type = COMMAND;
+			(*token_struct)[i].type = WORD;
 		(*token_struct)[i].value = _strdup(lex_struct->tokens[i]);
 		i++;
 	}

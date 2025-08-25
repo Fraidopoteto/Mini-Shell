@@ -6,7 +6,7 @@
 #    By: joschmun < joschmun@student.42wolfsburg    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 17:23:59 by joschmun          #+#    #+#              #
-#    Updated: 2025/08/14 14:19:35 by joschmun         ###   ########.fr        #
+#    Updated: 2025/08/22 18:57:47 by joschmun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ CPPFLAGS	+= -I$(SRC_DIR)/debug
 CPPFLAGS	+= -I$(SRC_DIR)/error
 CPPFLAGS	+= -I$(SRC_DIR)/init
 CPPFLAGS	+= -I$(SRC_DIR)/lexer
+CPPFLAGS	+= -I$(SRC_DIR)/parser
 CPPFLAGS	+= -I$(SRC_DIR)/run
 CPPFLAGS	+= -I$(SRC_DIR)/tokenizer
 
@@ -75,9 +76,13 @@ SRC		+= error.c
 
 vpath %.c $(SRC_DIR)/init
 SRC		+= init.c
+SRC		+= init_ast.c
 
 vpath %.c $(SRC_DIR)/lexer
 SRC		+= lexer.c
+
+vpath %.c $(SRC_DIR)/parser
+SRC		+= parser.c
 
 vpath %.c $(SRC_DIR)/tokenizer
 SRC		+= tokenizer.c

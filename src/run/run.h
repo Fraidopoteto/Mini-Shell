@@ -6,7 +6,7 @@
 /*   By: joschmun < joschmun@student.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:47:08 by joschmun          #+#    #+#             */
-/*   Updated: 2025/08/15 14:50:35 by joschmun         ###   ########.fr       */
+/*   Updated: 2025/08/22 19:23:11 by joschmun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include "tokenizer.h"
 # include "cleanup.h"
 # include "init.h"
+# include "parser.h"
 
 
 int	run(void);
