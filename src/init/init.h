@@ -6,7 +6,7 @@
 /*   By: joschmun < joschmun@student.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:50:44 by joschmun          #+#    #+#             */
-/*   Updated: 2025/08/25 18:59:48 by joschmun         ###   ########.fr       */
+/*   Updated: 2025/08/26 16:06:36 by joschmun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <stdbool.h>
 
 
 typedef enum e_type {

@@ -6,7 +6,7 @@
 /*   By: joschmun < joschmun@student.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:44:04 by joschmun          #+#    #+#             */
-/*   Updated: 2025/08/25 18:59:38 by joschmun         ###   ########.fr       */
+/*   Updated: 2025/08/26 17:14:28 by joschmun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include "init.h"
 
 
-int	parsing(t_tree ***tree, t_token_struct **token_struct, int token_count);
+int	parsing(t_tree ***tree, t_token_struct **token_struct, int token_count, t_tree **root_p);
 
 
 #endif

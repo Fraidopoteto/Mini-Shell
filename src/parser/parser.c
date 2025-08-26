@@ -6,7 +6,7 @@
 /*   By: joschmun < joschmun@student.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:43:59 by joschmun          #+#    #+#             */
-/*   Updated: 2025/08/25 19:17:38 by joschmun         ###   ########.fr       */
+/*   Updated: 2025/08/26 18:17:09 by joschmun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,26 +43,23 @@ static char	*_strdup(const char *s1)
 	return (addycpy);
 }
 
-int	parsing(t_tree ***tree, t_token_struct **token_struct, int token_count)
+int	parsing(t_tree ***tree, t_token_struct **token_struct, int token_count, t_tree **root_p)
 {
 	int	i;
 	int	y;
-	int	j;
 	int	tree_c;
 
 	i = 0;
 	y = 0;
-	j = 0;
 	tree_c = 0;
 	while (i < token_count)
 	{
 		if ((*token_struct)[i].type == WORD)
 		{
-			j = i;
-			while ((*token_struct)[j].type == WORD && i < token_count)
+			while ((*token_struct)[i].type == WORD && i < token_count)
 			{
-				(*tree)[tree_c]->argv[y] = _strdup((*token_struct)[j].value);
-				j++;
+				(*tree)[tree_c]->argv[y] = _strdup((*token_struct)[i].value);
+				i++;
 				y++;
 			}
 			(*tree)[tree_c]->type = CMD;
@@ -71,10 +68,10 @@ int	parsing(t_tree ***tree, t_token_struct **token_struct, int token_count)
 		}
 		else if ((*token_struct)[i].type == PIPE)
 		{
-			if (i == 0)
+			if (tree_c == 0)
 				return (1);
 			(*tree)[tree_c]->type = PIPE;
-			if (i == 1)
+			if (tree_c == 1)
 			{
 				(*tree)[tree_c]->branch->left_branch = (*tree)[tree_c - 1];
 				(*tree)[tree_c]->branch->right_branch = (*tree)[tree_c + 1];
@@ -85,9 +82,10 @@ int	parsing(t_tree ***tree, t_token_struct **token_struct, int token_count)
 				(*tree)[tree_c]->branch->right_branch = (*tree)[tree_c + 1];
 			}
 			tree_c++;
+			i++;
 		}
 		y = 0;
-		i++;
 	}
+	(*root_p) = (*tree)[tree_c - 2];
 	return (0);
 }
