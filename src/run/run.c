@@ -54,7 +54,8 @@ int	run()
 				}
 			}
 		}
-		cleanup(&token_struct, &lex_struct, &tree);
+		cleanup(&token_struct, &lex_struct);
+		clean_ast(&tree);
 	}
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: joschmun < joschmun@student.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/22 18:52:06 by joschmun          #+#    #+#             */
-/*   Updated: 2025/08/26 16:35:53 by joschmun         ###   ########.fr       */
+/*   Updated: 2025/08/27 16:15:19 by joschmun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,6 @@ int	init_ast(t_tree ***tree, t_token_struct **token_struct, int token_count, int
 		y++;
 		i++;
 	}
-	(*tree)[j]->argv = calloc((y), sizeof(char *));
+	(*tree)[j]->argv = calloc((y + 1), sizeof(char *));
 	return (0);
 }

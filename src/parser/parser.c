@@ -6,7 +6,7 @@
 /*   By: joschmun < joschmun@student.42wolfsburg    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:43:59 by joschmun          #+#    #+#             */
-/*   Updated: 2025/08/26 18:17:09 by joschmun         ###   ########.fr       */
+/*   Updated: 2025/08/27 16:07:59 by joschmun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,9 @@ int	parsing(t_tree ***tree, t_token_struct **token_struct, int token_count, t_tr
 		}
 		y = 0;
 	}
-	(*root_p) = (*tree)[tree_c - 2];
+	if (tree_c > 1)
+		(*root_p) = (*tree)[tree_c - 2];
+	else
+		(*root_p) = (*tree)[tree_c - 1];
 	return (0);
 }

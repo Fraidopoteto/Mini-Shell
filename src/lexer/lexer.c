@@ -92,7 +92,7 @@ static int	_pipe(t_lex_struct *lex_struct, int *i)
 	lex_struct->tokens[lex_struct->token_count] = calloc(1, 1);
 	if (!lex_struct->tokens)
 		return(1);
-	_strlcpy(lex_struct->tokens[lex_struct->token_count], &lex_struct->input[*i], 1);
+	_strlcpy(lex_struct->tokens[lex_struct->token_count], &lex_struct->input[*i], 0);
 	lex_struct->token_count++;
 	(*i)++;
 	return(0);
