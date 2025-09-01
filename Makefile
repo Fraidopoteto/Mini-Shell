@@ -39,8 +39,8 @@ CPPFLAGS	+= -I$(SRC_DIR)/tokenizer
 LDFLAGS	:=
 
 LDLIBS	+= -lreadline
-LDLIBS	+= -ltermcap
-LDLIBS	+= -lncurses
+#LDLIBS	+= -ltermcap
+#LDLIBS	+= -lncurses
 
 ifeq ($(DEBUG), 1)
 	CFLAGS	+= -ggdb3 -O0

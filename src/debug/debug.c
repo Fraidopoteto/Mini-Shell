@@ -49,7 +49,7 @@ void    _print_command(t_tree *root_p, int level)
         printf("%s  %s\n%s", CYAN, root_p->argv[i], END);
         ++i;
     }
-    _print_indent(level);
+    // _print_indent(level);
     // _print_redir(&root_p->redir, level);
 }
 
