@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "run.h"
 
 // int	execute_command(t_token_struct **token_struct, t_lex_struct *lex_struct)
@@ -28,10 +29,12 @@
 int	run()
 {
 	int tree_size = 0;
-	t_token_struct	*token_struct = NULL;
-	t_lex_struct	lex_struct;
-	t_tree			**tree = NULL;
-	t_tree			*root_p = NULL;
+	int	condense_size = 0;
+	t_lex_struct		lex_struct;
+	t_token_struct		*token_struct = NULL;
+	t_condense_struct	*condense_struct = NULL;
+	t_tree				**tree = NULL;
+	t_tree				*root_p = NULL;
 	while (1)
 	{
 		lex_struct.input = 0;
@@ -47,10 +50,13 @@ int	run()
 			{
 				if (!tokenize(&token_struct , &lex_struct))
 				{
-					if (init_ast(&tree, &token_struct, lex_struct.token_count, &tree_size)
-					 || !parsing(&tree, &token_struct, lex_struct.token_count, &root_p))
-						debug_info(&token_struct, &lex_struct, root_p);
-					// execute_command(&token_struct, &lex_struct);
+					if (!init_condense(&token_struct, &condense_struct, &lex_struct, &condense_size) && !condense(&token_struct, &condense_struct, &lex_struct))
+					{
+						if (!init_ast(&tree, &token_struct, lex_struct.token_count, &tree_size)
+						&& !parsing(&tree, &token_struct, lex_struct.token_count, &root_p))
+							debug_info(&token_struct, &lex_struct, &condense_struct, root_p, &condense_size);
+						// execute_command(&token_struct, &lex_struct);
+					}
 				}
 			}
 		}

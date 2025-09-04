@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joschmun < joschmun@student.42wolfsburg    +#+  +:+       +#+        */
+/*   By: joschmun <joschmun@student.42wolfsburg>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 18:43:59 by joschmun          #+#    #+#             */
-/*   Updated: 2025/08/27 16:07:59 by joschmun         ###   ########.fr       */
+/*   Updated: 2025/09/03 21:03:45 by joschmun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ int	parsing(t_tree ***tree, t_token_struct **token_struct, int token_count, t_tr
 	tree_c = 0;
 	while (i < token_count)
 	{
-		if ((*token_struct)[i].type == WORD)
+		if ((*token_struct)[i].type == WORD || (*token_struct)[i].type == SINGLE_QUOTE || (*token_struct)[i].type == DOUBLE_QUOTE || (*token_struct)[i].type == REOUTPUT || (*token_struct)[i].type == REINPUT)
 		{
-			while ((*token_struct)[i].type == WORD && i < token_count)
+			while (((*token_struct)[i].type == WORD  || (*token_struct)[i].type == SINGLE_QUOTE || (*token_struct)[i].type == DOUBLE_QUOTE || (*token_struct)[i].type == REOUTPUT || (*token_struct)[i].type == REINPUT) && i < token_count)
 			{
 				(*tree)[tree_c]->argv[y] = _strdup((*token_struct)[i].value);
 				i++;

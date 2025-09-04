@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: joschmun < joschmun@student.42wolfsburg    +#+  +:+       +#+         #
+#    By: joschmun <joschmun@student.42wolfsburg>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/12 17:23:59 by joschmun          #+#    #+#              #
-#    Updated: 2025/08/22 18:57:47 by joschmun         ###   ########.fr        #
+#    Updated: 2025/09/03 10:36:35 by joschmun         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,6 +27,7 @@ CPPFLAGS	:=
 CPPFLAGS	+= -I$(SRC_DIR)
 
 CPPFLAGS	+= -I$(SRC_DIR)/cleanup
+CPPFLAGS	+= -I$(SRC_DIR)/condense
 CPPFLAGS	+= -I$(SRC_DIR)/debug
 CPPFLAGS	+= -I$(SRC_DIR)/error
 CPPFLAGS	+= -I$(SRC_DIR)/init
@@ -39,8 +40,8 @@ CPPFLAGS	+= -I$(SRC_DIR)/tokenizer
 LDFLAGS	:=
 
 LDLIBS	+= -lreadline
-#LDLIBS	+= -ltermcap
-#LDLIBS	+= -lncurses
+# LDLIBS	+= -ltermcap
+# LDLIBS	+= -lncurses
 
 ifeq ($(DEBUG), 1)
 	CFLAGS	+= -ggdb3 -O0
@@ -68,6 +69,9 @@ SRC		:=
 vpath %.c $(SRC_DIR)/cleanup
 SRC		+= cleanup.c
 
+vpath %.c $(SRC_DIR)/condense
+SRC		+= condense.c
+
 vpath %.c $(SRC_DIR)/debug
 SRC		+= debug.c
 
@@ -77,6 +81,7 @@ SRC		+= error.c
 vpath %.c $(SRC_DIR)/init
 SRC		+= init.c
 SRC		+= init_ast.c
+SRC		+= init_condense.c
 
 vpath %.c $(SRC_DIR)/lexer
 SRC		+= lexer.c

@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   run.h                                              :+:      :+:    :+:   */
+/*   condense.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: joschmun <joschmun@student.42wolfsburg>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/14 12:47:08 by joschmun          #+#    #+#             */
-/*   Updated: 2025/09/03 10:34:34 by joschmun         ###   ########.fr       */
+/*   Created: 2025/09/02 14:05:37 by joschmun          #+#    #+#             */
+/*   Updated: 2025/09/03 10:31:18 by joschmun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RUN_H
-# define RUN_H
+#ifndef CONDENSE_H
+# define CONDENSE_H
 
 
 # include <unistd.h>
 # include <stdio.h>
 # include <stdlib.h>
-# include <readline/readline.h>
-# include "debug.h"
-# include "lexer.h"
-# include "tokenizer.h"
-# include "condense.h"
-# include "cleanup.h"
 # include "init.h"
-# include "parser.h"
 
 
-int	run(void);
+int	condense(t_token_struct **token_struct, t_condense_struct **condense_struct, t_lex_struct *lex_struct);
 
 
 #endif

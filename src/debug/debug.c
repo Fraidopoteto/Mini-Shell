@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joschmun < joschmun@student.42wolfsburg    +#+  +:+       +#+        */
+/*   By: joschmun <joschmun@student.42wolfsburg>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/15 14:22:22 by joschmun          #+#    #+#             */
-/*   Updated: 2025/08/26 17:32:20 by joschmun         ###   ########.fr       */
+/*   Updated: 2025/09/03 10:43:47 by joschmun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,12 @@ void    _print_ast(t_tree *root_p, int level)
         _print_ast(root_p->branch->right_branch, level + 1);
     }
 }
-
-void debug_info(t_token_struct **token_struct, t_lex_struct *lex_struct, t_tree *root_p)
+void    _print_token(t_token_struct **token_struct, t_lex_struct *lex_struct)
 {
     int i;
 
     i = 0;
-    printf("\n\n===TOKEN DEBUG===\n");
+    printf("\n\n===TOKEN DEBUG===\n\n");
     while (i < lex_struct->token_count)
     {
         printf("\nTOKEN: %i\n", i);
@@ -106,7 +105,43 @@ void debug_info(t_token_struct **token_struct, t_lex_struct *lex_struct, t_tree 
         printf("\nVALUE: %s\n", (*token_struct)[i].value);
         i++;
     }
+}
 
+void    _print_condense(t_condense_struct **condense_struct, int *condense_size)
+{
+    int i;
+
+    i = 0;
+    printf("\n\n===CONDENSE DEBUG===\n\n");
+    while (i < (*condense_size))
+    {
+        printf("\nCONDENSED TOKEN: %i\n", i);
+        printf("TYPE:  ");
+        if ((*condense_struct)[i].type == PIPE)
+            printf("PIPE");
+        else if ((*condense_struct)[i].type == REINPUT)
+            printf("REINPUT");
+        else if ((*condense_struct)[i].type == APPEND)
+            printf("APPEND");
+        else if ((*condense_struct)[i].type == REOUTPUT)
+            printf("REOUTPUT");
+        else if ((*condense_struct)[i].type == HDOC)
+            printf("HDOC");
+        else if ((*condense_struct)[i].type == WORD)
+            printf("WORD");
+        else if ((*condense_struct)[i].type == SINGLE_QUOTE)
+            printf("SINGLE_QUOTE");
+        else if ((*condense_struct)[i].type == DOUBLE_QUOTE)
+            printf("DOUBLE_QUOTE");
+        printf("\nVALUE: %s\n", (*condense_struct)[i].value);
+        i++;
+    }
+}
+
+void debug_info(t_token_struct **token_struct, t_lex_struct *lex_struct, t_condense_struct **condense_struct, t_tree *root_p, int *condense_size)
+{
+    _print_token(token_struct, lex_struct);
+    _print_condense(condense_struct, condense_size);
     printf("\n\n===TREE DEBUG===\n\n");
     _print_ast(root_p, 0);
 }

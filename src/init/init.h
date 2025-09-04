@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: joschmun < joschmun@student.42wolfsburg    +#+  +:+       +#+        */
+/*   By: joschmun <joschmun@student.42wolfsburg>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 12:50:44 by joschmun          #+#    #+#             */
-/*   Updated: 2025/08/26 16:06:36 by joschmun         ###   ########.fr       */
+/*   Updated: 2025/09/03 10:25:08 by joschmun         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@ typedef enum e_type {
 	DOUBLE_QUOTE,
 	CMD,
 } t_type;
+
+typedef struct condense_struct {
+	t_type	type;
+	char	*value;
+} t_condense_struct;
 
 typedef struct token_struct {
 	t_type	type;
@@ -54,6 +59,7 @@ typedef struct s_branch {
 
 
 int	init(t_token_struct **token_struct, t_lex_struct *lex_struct);
+int	init_condense(t_token_struct **token_struct, t_condense_struct **condense_struct, t_lex_struct *lex_struct, int *size);
 int	init_ast(t_tree ***tree, t_token_struct **token_struct, int token_count, int *tree_size);
 
 
