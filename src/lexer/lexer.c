@@ -63,11 +63,12 @@ static int	_quote(t_lex_struct *lex_struct, int *i, char quote)
 	else
 		return (1);
 	if (!lex_struct->tokens)
-		return(1);
-	_strlcpy(lex_struct->tokens[lex_struct->token_count], &lex_struct->input[j], ((*i) - j + 1));
+		return (1);
+	_strlcpy(lex_struct->tokens[lex_struct->token_count],
+		&lex_struct->input[j], ((*i) - j + 1));
 	lex_struct->token_count++;
 	(*i)++;
-	return(0);
+	return (0);
 }
 
 
@@ -81,21 +82,23 @@ static int	_operator(t_lex_struct *lex_struct, int *i, char operator)
 		(*i)++;
 	lex_struct->tokens[lex_struct->token_count] = calloc((((*i) - j) + 1), 1);
 	if (!lex_struct->tokens)
-		return(1);
-	_strlcpy(lex_struct->tokens[lex_struct->token_count], &lex_struct->input[j], (*i - j));
+		return (1);
+	_strlcpy(lex_struct->tokens[lex_struct->token_count],
+		&lex_struct->input[j], (*i - j));
 	lex_struct->token_count++;
-	return(0);
+	return (0);
 }
 
 static int	_pipe(t_lex_struct *lex_struct, int *i)
 {
 	lex_struct->tokens[lex_struct->token_count] = calloc(1, 1);
 	if (!lex_struct->tokens)
-		return(1);
-	_strlcpy(lex_struct->tokens[lex_struct->token_count], &lex_struct->input[*i], 1);
+		return (1);
+	_strlcpy(lex_struct->tokens[lex_struct->token_count],
+		&lex_struct->input[*i], 1);
 	lex_struct->token_count++;
 	(*i)++;
-	return(0);
+	return (0);
 }
 
 static int	_word(t_lex_struct *lex_struct, int *i)
@@ -129,7 +132,7 @@ int	lexing(t_lex_struct *lex_struct)
 			if (lex_struct->input[i] == '"' || lex_struct->input[i] == '\'')
 			{
 				if (_quote(lex_struct, &i, lex_struct->input[i]))
-					return(error("syntax error: quotes\n"));
+					return (error("syntax error: quotes\n"));
 			}
 			else if (lex_struct->input[i] == '<' || lex_struct->input[i] == '>')
 				_operator(lex_struct, &i, lex_struct->input[i]);

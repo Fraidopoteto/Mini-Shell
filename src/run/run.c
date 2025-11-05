@@ -48,7 +48,7 @@ int	run()
 		{
 			if (!lexing(&lex_struct))
 			{
-				if (!tokenize(&token_struct , &lex_struct))
+				if (!tokenize(&token_struct, &lex_struct))
 				{
 					if (!init_condense(&token_struct, &condense_struct, &lex_struct, &condense_size) && !condense(&token_struct, &condense_struct, &lex_struct))
 					{
